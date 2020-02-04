@@ -1,0 +1,6 @@
+# Project exclude paths
+/domain/target/
+/domain/target/scala-2.13/classes/
+/project/project/target/
+/project/target/
+/target/
