@@ -12,7 +12,8 @@ lazy val commonSettings = Seq(
   ),
   libraryDependencies += "io.estatico" %% "newtype" % "0.4.3",
   libraryDependencies += "org.typelevel" %% "cats-core" % "2.0.0",
-  libraryDependencies += "eu.timepit" %% "refined" % "0.9.12"
+  libraryDependencies += "eu.timepit" %% "refined" % "0.9.12",
+  addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVersion.full)
 )
 
 
@@ -23,12 +24,12 @@ lazy val domain = (project in file("domain"))
   .settings(
     commonSettings,
     libraryDependencies ++= Seq(
-      "io.circe" %% "circe-core",
-      "io.circe" %% "circe-generic",
-      "io.circe" %% "circe-parser",
-      "io.circe" %% "circe-refined",
-    ).map(_ % circeVersion),
-    libraryDependencies += "io.circe" %% "circe-generic-extras" % "0.12.2"
+      "io.circe" %% "circe-core" % "0.12.3",
+      "io.circe" %% "circe-generic" % "0.12.3",
+      "io.circe" %% "circe-parser" % "0.12.3",
+      "io.circe" %% "circe-refined" % "0.12.3",
+      "io.circe" %% "circe-generic-extras" % "0.12.2"
+    )
   )
 
 lazy val root = (project in file("."))

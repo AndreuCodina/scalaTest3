@@ -4,7 +4,7 @@ import io.circe.generic.semiauto._
 import io.circe.refined._
 import io.estatico.newtype.Coercible
 import io.estatico.newtype.ops._
-import main.scala.models.user.User.User
+//import main.scala.models.user.User.User
 
 trait JsonCodecs {
   // ----- Coercible codecs -----

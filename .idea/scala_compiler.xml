@@ -2,11 +2,14 @@
 <project version="4">
   <component name="ScalaCompilerConfiguration">
     <profile name="sbt 1" modules="hello,hello-bar,hello-foo,scalaTest3,scalatest3" />
-    <profile name="sbt 3" modules="domain,root">
+    <profile name="sbt 2" modules="domain,root">
       <option name="featureWarnings" value="true" />
       <parameters>
         <parameter value="-Ymacro-annotations" />
       </parameters>
+      <plugins>
+        <plugin path="C:\Users\andre\AppData\Local\Coursier\cache\v1\https\repo1.maven.org\maven2\org\typelevel\kind-projector_2.13.1\0.11.0\kind-projector_2.13.1-0.11.0.jar" />
+      </plugins>
     </profile>
   </component>
 </project>
