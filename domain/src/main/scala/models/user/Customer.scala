@@ -10,3 +10,4 @@ object Customer {
 }
 
 case class Customer(name: CustomerName)
+
