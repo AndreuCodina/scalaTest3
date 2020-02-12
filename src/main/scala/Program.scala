@@ -15,7 +15,7 @@ import models.user.Customer.CustomerName
 
 object Program {
   // ----- CustomerName codecs -----
-  // Uncomment this line to get an refined error
+  // Uncomment this line to get a refined error
   implicit val customerNameDecoder: Decoder[CustomerName] =
     Decoder.forProduct1[CustomerName, String]("name")(name => CustomerName(Refined.unsafeApply(name)))
 
