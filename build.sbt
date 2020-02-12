@@ -16,10 +16,6 @@ lazy val commonSettings = Seq(
   addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVersion.full)
 )
 
-
-//libraryDependencies += "io.estatico" %% "newtype" % "0.4.3"
-val circeVersion = "0.12.3"
-
 lazy val domain = (project in file("domain"))
   .settings(
     commonSettings,
