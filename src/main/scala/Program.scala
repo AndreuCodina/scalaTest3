@@ -16,8 +16,8 @@ import models.user.Customer.CustomerName
 object Program {
   // ----- CustomerName codecs -----
   // Uncomment this line to get a refined error
-  implicit val customerNameDecoder: Decoder[CustomerName] =
-    Decoder.forProduct1[CustomerName, String]("name")(name => CustomerName(Refined.unsafeApply(name)))
+//  implicit val customerNameDecoder: Decoder[CustomerName] =
+//    Decoder.forProduct1[CustomerName, String]("name")(name => CustomerName(Refined.unsafeApply(name)))
 
   // ----- Coercible codecs -----
   implicit def coercibleDecoder[A: Coercible[B, *], B: Decoder]: Decoder[A] =
@@ -33,7 +33,9 @@ object Program {
     KeyEncoder[B].contramap[A](_.repr.asInstanceOf[B])
 
   // ----- Domain codecs -----
-  implicit val customerDecoder: Decoder[Customer] = deriveDecoder[Customer]
+  implicit val customerDecoder: Decoder[Customer] =
+    Decoder.forProduct1[Customer, String]("name")(name => Customer(CustomerName(Refined.unsafeApply(name))))
+
   implicit val customerEncoder: Encoder[Customer] = deriveEncoder[Customer]
 
   def main(args: Array[String]): Unit = {
