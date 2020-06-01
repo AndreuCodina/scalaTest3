@@ -1,23 +1,20 @@
-import eu.timepit.refined.api.{RefType, Refined, Validate}
-import eu.timepit.refined.auto._
-import eu.timepit.refined.collection.MaxSize
-import io.circe._
+import eu.timepit.refined.api.Refined
+import io.circe.generic.extras.auto._
 import io.circe.generic.extras.Configuration
-import io.circe.generic.extras.decoding.UnwrappedDecoder
-import io.circe.generic.semiauto._
 import io.circe.syntax._
+import models.user.Customer.CustomerName
+import io.circe.{Decoder, Encoder, KeyDecoder, KeyEncoder}
 import io.circe.parser.decode
-import io.circe.refined._
 import io.estatico.newtype.Coercible
 import io.estatico.newtype.ops._
+import io.circe.refined._
+import eu.timepit.refined.auto._
 import models.user.Customer
-import models.user.Customer.CustomerName
+import models.user.Customer.{ValidatedEmail}
 
 object Program {
-  // ----- CustomerName codecs -----
-  // Uncomment this line to get a refined error
-//  implicit val customerNameDecoder: Decoder[CustomerName] =
-//    Decoder.forProduct1[CustomerName, String]("name")(name => CustomerName(Refined.unsafeApply(name)))
+  implicit val customConfig: Configuration =
+    Configuration.default.withSnakeCaseMemberNames.withDiscriminator("type")
 
   // ----- Coercible codecs -----
   implicit def coercibleDecoder[A: Coercible[B, *], B: Decoder]: Decoder[A] =
@@ -33,17 +30,31 @@ object Program {
     KeyEncoder[B].contramap[A](_.repr.asInstanceOf[B])
 
   // ----- Domain codecs -----
-  implicit val customerDecoder: Decoder[Customer] =
-    Decoder.forProduct1[Customer, String]("name")(name => Customer(CustomerName(Refined.unsafeApply(name))))
-
-  implicit val customerEncoder: Encoder[Customer] = deriveEncoder[Customer]
+  // implicit val customerDecoder: Decoder[Customer] =
+  // Decoder.forProduct1[Customer, String]("name")(name => Customer(CustomerName(Refined.unsafeApply(name))))
 
   def main(args: Array[String]): Unit = {
-    val customer = Customer(CustomerName("Alex")) // Alex -> 4 characters
-    val customerWithLongName: Customer = customer.copy(name = CustomerName(Refined.unsafeApply("Alex Mendoza"))) // Alex Mendoza -> More than 4 characters
-    val json = customerWithLongName.asJson.noSpaces
-    println("Customer json: " + json)
-    val decodedJson = decode[Customer](json)
+    val customer = Customer(
+      name = CustomerName("Alex"),
+      email = ValidatedEmail(value = "alex@outlook.com")
+    )
+
+    var json = customer.asJson.noSpaces
+    println("customer json: " + json)
+
+    var decodedJson = decode[Customer](json)
+    println(decodedJson)
+
+    println("-----------------------------")
+
+    val customerWithLongName: Customer = customer.copy(
+      name = CustomerName(Refined.unsafeApply("Alex Mendoza")) // Alex Mendoza -> More than 4 characters
+    )
+
+    json = customerWithLongName.asJson.noSpaces
+    println("customerWithLongName json: " + json)
+
+    decodedJson = decode[Customer](json)
     println(decodedJson)
     ()
   }

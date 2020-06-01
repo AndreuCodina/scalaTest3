@@ -25,6 +25,7 @@ lazy val domain = (project in file("domain"))
       "io.circe" %% "circe-parser" % "0.12.3",
       "io.circe" %% "circe-refined" % "0.12.3",
       "io.circe" %% "circe-generic-extras" % "0.12.2"
+      // "com.beachape" %% "enumeratum-circe" % "1.6.1"
     )
   )
 
